@@ -1,161 +1,180 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DarumaKnock</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DarumaKnock — サブスクをだるま落とし</title>
+  <meta name="description" content="不要なサブスクを、だるま落とし。定期課金を一覧管理して、使っていないものをひとつずつ手放すiOSアプリ。">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #0b1020;
+      background: #ffffff;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 22px 18px 44px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0 18px; }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:0.2px; }
+    .dot { width: 10px; height: 10px; border-radius: 999px; background: #d64b4b; box-shadow: 0 0 0 6px rgba(214,75,75,0.12); }
+    .hero {
+      border-radius: 18px;
+      padding: 22px 18px 18px;
+      background: radial-gradient(900px 450px at 80% 0%, rgba(214,75,75,0.18), transparent 55%),
+                  radial-gradient(900px 450px at 20% 10%, rgba(17,26,58,0.10), transparent 60%),
+                  #fff;
+      border: 1px solid rgba(11,16,32,0.12);
+    }
+    h1 { margin: 8px 0 10px; font-size: 34px; letter-spacing: -0.02em; line-height: 1.12; }
+    .lead { margin: 0; color: rgba(11,16,32,0.75); line-height: 1.7; max-width: 72ch; }
+    .cards { display: grid; gap: 14px; margin-top: 14px; }
+    @media (min-width: 760px) { .cards { grid-template-columns: 1fr 1fr 1fr; } h1 { font-size: 40px; } }
+    .card {
+      border-radius: 18px;
+      padding: 16px;
+      background: #fff;
+      border: 1px solid rgba(11,16,32,0.12);
+    }
+    .card h3 { margin: 6px 0 8px; font-size: 18px; letter-spacing: -0.01em; }
+    .card p { margin: 0; color: rgba(11,16,32,0.75); line-height: 1.7; font-size: 14px; }
+    footer { margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(11,16,32,0.12); color: rgba(11,16,32,0.6); display:flex; flex-wrap:wrap; gap:10px 14px; justify-content: space-between; font-size: 12px; }
+    .footlinks { display:flex; gap:12px; flex-wrap:wrap; }
+    .footlinks a { text-decoration: underline; text-underline-offset: 3px; }
+  </style>
 
-<script>
-(function () {
- const params = new URLSearchParams(location.search);
- const fromQuery = params.get("lang");
- const saved = localStorage.getItem("qt_lang");
- const lang = (fromQuery === "en" || fromQuery === "ja") ? fromQuery : (saved || "ja");
+  <!-- Quiet Tools: language toggle (JP/EN) + persistence -->
+  <script>
+    (function () {
+      const params = new URLSearchParams(location.search);
+      const fromQuery = params.get("lang");
+      const saved = localStorage.getItem("qt_lang");
+      const lang = (fromQuery === "en" || fromQuery === "ja") ? fromQuery : (saved || "ja");
 
- function apply(next){
-  document.documentElement.setAttribute("data-lang", next);
-  localStorage.setItem("qt_lang", next);
- }
+      function apply(next) {
+        document.documentElement.setAttribute("data-lang", next);
+        localStorage.setItem("qt_lang", next);
+      }
 
- window.QT_setLang=function(next){
-  const url=new URL(location.href);
-  url.searchParams.set("lang",next);
-  history.replaceState(null,"",url.toString());
-  apply(next);
- }
+      window.QT_setLang = function (next) {
+        const url = new URL(location.href);
+        url.searchParams.set("lang", next);
+        history.replaceState(null, "", url.toString());
+        apply(next);
+      };
 
- apply(lang);
-})();
-</script>
+      apply(lang);
+    })();
+  </script>
+  <style>
+    [data-lang="ja"] .lang-en { display: none !important; }
+    [data-lang="en"] .lang-ja { display: none !important; }
 
-<style>
+    /* minimal top-nav; kept lightweight to avoid changing original layout */
+    .qt-topnav{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 14px 16px 0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .qt-topnav a{
+      text-decoration:none;
+      font-weight: 700;
+    }
+    .qt-lang{
+      display:flex;
+      gap: 6px;
+      align-items:center;
+    }
+    .qt-lang button{
+      appearance:none;
+      border: 1px solid rgba(0,0,0,0.12);
+      background: rgba(255,255,255,0.75);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    html[data-lang="ja"] .qt-btn-ja,
+    html[data-lang="en"] .qt-btn-en{
+      background: rgba(0,0,0,0.08);
+    }
+  </style>
 
-[data-lang="ja"] .lang-en{display:none}
-[data-lang="en"] .lang-ja{display:none}
-
-body{
-margin:0;
-font-family:-apple-system,system-ui;
-background:#0B1220;
-color:white;
-}
-
-.wrap{
-max-width:900px;
-margin:auto;
-padding:24px;
-}
-
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:30px;
-}
-
-.brand{
-font-weight:700;
-}
-
-.nav{
-display:flex;
-gap:12px;
-}
-
-button{
-padding:6px 10px;
-border-radius:20px;
-border:none;
-cursor:pointer;
-}
-
-.hero{
-background:#111a3a;
-padding:30px;
-border-radius:16px;
-}
-
-h1{
-margin-top:0;
-}
-
-.card{
-margin-top:20px;
-background:#0f1a2f;
-padding:20px;
-border-radius:16px;
-}
-
-footer{
-margin-top:30px;
-font-size:12px;
-color:#aaa;
-}
-
-</style>
 </head>
-
 <body>
 
-<div class="wrap">
+  <div class="qt-topnav">
+    <a href="/" aria-label="Quiet Tools Home">← Quiet Tools</a>
+    <div class="qt-lang" aria-label="Language">
+      <button class="qt-btn-ja" type="button" onclick="QT_setLang('ja')">JP</button>
+      <button class="qt-btn-en" type="button" onclick="QT_setLang('en')">EN</button>
+    </div>
+  </div>
 
-<header>
+<div class="lang-ja">
 
-<div class="brand">
-<a href="/" style="color:white;text-decoration:none">Quiet Tools</a>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><span class="dot" aria-hidden="true"></span>DarumaKnock</div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap; font-size:13px; color:rgba(11,16,32,0.75);">
+        <a href="/DarumaKnock/support.html">Support</a>
+        <a href="/DarumaKnock/privacy.html">Privacy</a>
+        <a href="/DarumaKnock/terms.html">Terms</a>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div style="font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:rgba(11,16,32,0.6);">iOS App</div>
+      <h1>サブスクを、だるま落とし。</h1>
+      <p class="lead">不要なサブスクだけを整理して、固定費を減らす。定期課金を一覧で見える化して、使っていないものをひとつずつ手放すためのiOSアプリです。</p>
+    </section>
+
+    <section class="cards" aria-label="How it works">
+      <div class="card">
+        <div style="font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:rgba(11,16,32,0.6);">Step 1</div>
+        <h3>まず、把握する</h3>
+        <p>登録したサブスクを一覧で見える化。金額と更新日をまとめて管理。</p>
+      </div>
+
+      <div class="card">
+        <div style="font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:rgba(11,16,32,0.6);">Step 2</div>
+        <h3>月1回、振り返る</h3>
+        <p>「このサブスク、使ってる？」を短時間で確認。迷いを減らす。</p>
+      </div>
+
+      <div class="card">
+        <div style="font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:rgba(11,16,32,0.6);">Step 3</div>
+        <h3>余分だけを打ち出す</h3>
+        <p>必要なものは残して、余分だけを整理。削減額が見える。</p>
+      </div>
+    </section>
+
+    <footer>
+      <div>© Quiet Tools</div>
+      <div class="footlinks">
+        <a href="/">Home</a>
+        <a href="/DarumaKnock/support.html">Support</a>
+        <a href="/DarumaKnock/privacy.html">Privacy Policy</a>
+        <a href="/DarumaKnock/terms.html">Terms</a>
+      </div>
+    </footer>
+  </div>
+
 </div>
 
-<div class="nav">
-<button onclick="QT_setLang('ja')">JP</button>
-<button onclick="QT_setLang('en')">EN</button>
-</div>
-
-</header>
-
-
-<div class="hero">
-
-<h1 class="lang-ja">固定費を、だるま落とし。</h1>
-<h1 class="lang-en">Knock out the extras.</h1>
-
-<p class="lang-ja">
-余分なサブスクだけを整理して、固定費を減らすためのアプリです。
-</p>
-
-<p class="lang-en">
-A simple tool to manage subscriptions and remove what you don't need.
-</p>
-
-</div>
-
-<div class="card">
-
-<h2 class="lang-ja">使い方</h2>
-<h2 class="lang-en">How it works</h2>
-
-<p class="lang-ja">
-1. サブスクを登録  
-2. 更新日を確認  
-3. 不要なものを削除
-</p>
-
-<p class="lang-en">
-1. Register subscriptions  
-2. Check renewal dates  
-3. Remove what you don't need
-</p>
-
-</div>
-
-<footer>
-
-<a href="/DarumaKnock/support.html">Support</a> |
-<a href="/DarumaKnock/privacy.html">Privacy</a> |
-<a href="/DarumaKnock/terms.html">Terms</a>
-
-</footer>
-
-</div>
+  <main class="lang-en" style="max-width: 980px; margin: 0 auto; padding: 16px;">
+    <h1 style="margin: 16px 0 8px;">DarumaKnock</h1>
+    <p style="margin: 0 0 14px; opacity: .8;">
+      English version is being prepared. For now, please switch to JP.
+    </p>
+    <p style="margin: 0;">
+      <a href="?lang=ja">Switch to Japanese</a>
+    </p>
+  </main>
 
 </body>
 </html>

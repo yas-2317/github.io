@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>プライバシーポリシー — Quiet Tools</title>
+  <meta name="description" content="Quiet Toolsのプライバシーポリシー（共通）。各プロダクトの個別ポリシーは各ページをご確認ください。" />
+
+  <!-- ✅ JP/EN toggle (localStorage + ?lang=) -->
+  <script>
+    (function () {
+      const params = new URLSearchParams(location.search);
+      const fromQuery = params.get("lang");
+      const saved = localStorage.getItem("qt_lang");
+      const lang = (fromQuery === "en" || fromQuery === "ja") ? fromQuery : (saved || "ja");
+
+      function apply(next) {
+        document.documentElement.setAttribute("data-lang", next);
+        localStorage.setItem("qt_lang", next);
+      }
+
+      window.QT_setLang = function (next) {
+        const url = new URL(location.href);
+        url.searchParams.set("lang", next);
+        history.replaceState(null, "", url.toString());
+        apply(next);
+      };
+
+      apply(lang);
+    })();
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root{
+      --bg:#0B1220; --card:#0F1A2F; --border:#1E335A;
+      --primary:#E6EEF9; --secondary:#9FB2CC; --accent:#3B82F6;
+    }
+    body{
+      background: var(--bg);
+      color: var(--primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a{ color: var(--accent); text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+
+    [data-lang="ja"] .lang-en { display:none !important; }
+    [data-lang="en"] .lang-ja { display:none !important; }
+
+    :lang(ja){
+      line-break: strict;
+      word-break: normal;
+      overflow-wrap: break-word;
+      hyphens: none;
+    }
+
+    /* ── NAV ── */
+    nav{
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .nav-left{
+      display:flex; align-items:center; gap: 12px; flex-wrap: wrap;
+      min-width: 0;
+    }
+    .nav-home{
+      color: var(--secondary);
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+    .nav-home:hover{ color: var(--primary); text-decoration:none; }
+    .nav-logo{
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+    .nav-right{ display:flex; align-items:center; gap: 12px; flex-wrap: wrap; }
+
+    .lang-toggle{ display:flex; gap: 8px; align-items:center; }
+    .lang-toggle button{
+      appearance:none;
+      border: 1px solid rgba(230,238,249,0.18);
+      background: transparent;
+      color: var(--secondary);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background .15s, color .15s, border-color .15s, transform .08s;
+    }
+    .lang-toggle button:hover{
+      color: var(--primary);
+      border-color: rgba(230,238,249,0.35);
+      text-decoration:none;
+    }
+    .lang-toggle button:active{ transform: translateY(1px); }
+    html[data-lang="ja"] .btn-ja,
+    html[data-lang="en"] .btn-en{
+      background: rgba(230,238,249,0.08);
+      color: var(--primary);
+      border-color: rgba(230,238,249,0.25);
+    }
+
+    @media (max-width:520px){
+      nav{ padding: 16px 18px; }
+    }
+
+    /* ── CONTENT ── */
+    .container{
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 60px 24px 84px;
+    }
+    h1{
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+    .meta{
+      color: var(--secondary);
+      font-size: 0.88rem;
+      margin-bottom: 38px;
+    }
+    h2{
+      margin-top: 34px;
+      margin-bottom: 10px;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+    p, li{
+      color: var(--secondary);
+      font-size: 0.95rem;
+      line-height: 1.85;
+    }
+    ul{
+      margin: 0 0 12px 20px;
+    }
+    ul li{ margin-bottom: 6px; }
+
+    .callout{
+      margin-top: 16px;
+      background: rgba(230,238,249,0.04);
+      border: 1px solid rgba(230,238,249,0.12);
+      border-radius: 14px;
+      padding: 14px 16px;
+      color: rgba(230,238,249,0.85);
+      font-size: 0.92rem;
+      line-height: 1.75;
+    }
+
+    /* ── FOOTER ── */
+    footer{
+      border-top: 1px solid var(--border);
+      padding: 24px 40px;
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      flex-wrap: wrap;
+      gap: 12px;
+      color: var(--secondary);
+      font-size: 0.85rem;
+    }
+    footer a{ color: var(--secondary); }
+    footer a:hover{ color: var(--primary); text-decoration:none; }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="nav-left">
+      <a class="nav-home" href="/" aria-label="Back to Quiet Tools">← Quiet Tools</a>
+      <span class="nav-logo">Privacy</span>
+    </div>
+    <div class="nav-right">
+      <a href="/terms.html"><span class="lang-ja">利用規約</span><span class="lang-en">Terms</span></a>
+      <div class="lang-toggle" aria-label="Language">
+        <button type="button" class="btn-ja" onclick="QT_setLang('ja')">JP</button>
+        <button type="button" class="btn-en" onclick="QT_setLang('en')">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <section class="lang-ja">
+      <h1>プライバシーポリシー（共通）</h1>
+      <div class="meta">最終更新日: 2026年3月</div>
+
+      <p>Quiet Tools（以下「当サイト/当プロジェクト」）は、ユーザーのプライバシーを尊重し、必要最小限の情報取り扱いに努めます。</p>
+
+      <div class="callout">
+        <strong>重要：</strong> DarumaKnock など各アプリのデータ取り扱い（オンデバイス保存等）は、各アプリの <a href="/DarumaKnock/privacy.html">個別プライバシーポリシー</a> に従います。
+      </div>
+
+      <h2>収集する情報</h2>
+      <ul>
+        <li>当サイト（GitHub Pages）自体は、アカウント登録やフォーム送信機能を提供しません。</li>
+        <li>アクセス解析を導入する場合でも、個人を特定する情報の収集は行わない方針です（導入時は本ページを更新します）。</li>
+      </ul>
+
+      <h2>外部リンク</h2>
+      <p>当サイトには、App Store や外部フォーム等へのリンクが含まれる場合があります。リンク先での情報取り扱いは、各サービスのポリシーに従います。</p>
+
+      <h2>お問い合わせ</h2>
+      <p>当サイトに関するお問い合わせは、各プロダクトのサポートページからご連絡ください（例：<a href="/DarumaKnock/support.html">DarumaKnock Support</a>）。</p>
+
+      <h2>変更</h2>
+      <p>本ポリシーは必要に応じて更新されます。重要な変更がある場合は、本ページ上で告知します。</p>
+    </section>
+
+    <section class="lang-en">
+      <h1>Privacy Policy (General)</h1>
+      <div class="meta">Last updated: March 2026</div>
+
+      <p>Quiet Tools ("the Site/Project") respects your privacy and aims to handle information in a minimal and transparent way.</p>
+
+      <div class="callout">
+        <strong>Note:</strong> Product-specific data handling (e.g., on-device storage) is governed by each product’s policy (e.g., <a href="/DarumaKnock/privacy.html">DarumaKnock Privacy Policy</a>).
+      </div>
+
+      <h2>Information We Collect</h2>
+      <ul>
+        <li>This site (GitHub Pages) does not provide user accounts or built-in submission forms.</li>
+        <li>If analytics are introduced, we intend not to collect personally identifiable information and will update this page accordingly.</li>
+      </ul>
+
+      <h2>External Links</h2>
+      <p>The site may include links to external services (App Store, external forms, etc.). Their privacy practices are governed by their own policies.</p>
+
+      <h2>Contact</h2>
+      <p>For inquiries, please contact via each product’s support page (e.g., <a href="/DarumaKnock/support.html">DarumaKnock Support</a>).</p>
+
+      <h2>Changes</h2>
+      <p>We may update this policy from time to time. Material changes will be posted on this page.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <span>© Quiet Tools</span>
+    <div style="display:flex; gap:18px; flex-wrap:wrap;">
+      <a href="/"><span class="lang-ja">トップ</span><span class="lang-en">Home</span></a>
+      <a href="/privacy.html"><span class="lang-ja">プライバシー</span><span class="lang-en">Privacy</span></a>
+      <a href="/terms.html"><span class="lang-ja">利用規約</span><span class="lang-en">Terms</span></a>
+    </div>
+  </footer>
+</body>
+</html>

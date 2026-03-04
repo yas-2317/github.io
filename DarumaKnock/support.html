@@ -4,6 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>サポート — DarumaKnock</title>
+
+  <!-- ✅ Added: JP/EN toggle (localStorage + ?lang=) -->
+  <script>
+    (function () {
+      const params = new URLSearchParams(location.search);
+      const fromQuery = params.get("lang");
+      const saved = localStorage.getItem("qt_lang");
+      const lang = (fromQuery === "en" || fromQuery === "ja") ? fromQuery : (saved || "ja");
+
+      function apply(next) {
+        document.documentElement.setAttribute("data-lang", next);
+        localStorage.setItem("qt_lang", next);
+      }
+
+      window.QT_setLang = function (next) {
+        const url = new URL(location.href);
+        url.searchParams.set("lang", next);
+        history.replaceState(null, "", url.toString());
+        apply(next);
+      };
+
+      apply(lang);
+    })();
+  </script>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -12,15 +37,47 @@
     }
     body { background: var(--bg); color: var(--primary); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.6; }
     a { color: var(--accent); }
-    nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid var(--border); }
+
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 40px; border-bottom: 1px solid var(--border);
+      gap: 16px; flex-wrap: wrap;
+    }
     .nav-logo { font-size: 1.1rem; font-weight: 700; text-decoration: none; color: var(--primary); }
+
+    .nav-right { display:flex; align-items:center; gap: 16px; flex-wrap: wrap; }
     .nav-links { display: flex; gap: 24px; font-size: 0.9rem; }
     .nav-links a { color: var(--secondary); text-decoration: none; }
     .nav-links a:hover { color: var(--primary); }
 
+    /* ✅ Added: language toggle UI */
+    .lang-toggle { display:flex; gap: 8px; align-items:center; }
+    .lang-toggle button {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--secondary);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: color .15s, border-color .15s, background .15s;
+    }
+    .lang-toggle button:hover { color: var(--primary); border-color: rgba(230,238,249,0.35); }
+    html[data-lang="ja"] .btn-ja,
+    html[data-lang="en"] .btn-en {
+      background: rgba(230,238,249,0.08);
+      color: var(--primary);
+      border-color: rgba(230,238,249,0.25);
+    }
+
     .container { max-width: 720px; margin: 0 auto; padding: 60px 24px 80px; }
     h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; }
     .subtitle { color: var(--secondary); margin-bottom: 48px; }
+
+    /* ✅ Added: language visibility */
+    [data-lang="ja"] .lang-en { display: none !important; }
+    [data-lang="en"] .lang-ja { display: none !important; }
 
     /* FAQ */
     .faq-section h2 {
@@ -61,7 +118,13 @@
     }
     .contact-btn:hover { opacity: .85; }
 
-    footer { border-top: 1px solid var(--border); padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--secondary); flex-wrap: wrap; gap: 12px; }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 40px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.85rem; color: var(--secondary);
+      flex-wrap: wrap; gap: 12px;
+    }
     footer a { color: var(--secondary); text-decoration: none; }
     footer a:hover { color: var(--primary); }
   </style>
@@ -70,84 +133,166 @@
 
   <nav>
     <a href="index.html" class="nav-logo">DarumaKnock</a>
-    <div class="nav-links">
-      <a href="support.html">サポート</a>
-      <a href="privacy.html">プライバシーポリシー</a>
-      <a href="terms.html">利用規約</a>
+
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="support.html"><span class="lang-ja">サポート</span><span class="lang-en">Support</span></a>
+        <a href="privacy.html"><span class="lang-ja">プライバシーポリシー</span><span class="lang-en">Privacy</span></a>
+      </div>
+
+      <!-- ✅ Added: language buttons -->
+      <div class="lang-toggle" aria-label="Language">
+        <button type="button" class="btn-ja" onclick="QT_setLang('ja')">JP</button>
+        <button type="button" class="btn-en" onclick="QT_setLang('en')">EN</button>
+      </div>
     </div>
   </nav>
 
   <div class="container">
-    <h1>サポート</h1>
-    <p class="subtitle">よくある質問と使い方のガイドです。</p>
 
-    <div class="faq-section">
-      <h2>よくある質問</h2>
-      <div class="faq-list">
+    <!-- ✅ JP -->
+    <div class="lang-ja">
+      <h1>サポート</h1>
+      <p class="subtitle">よくある質問と使い方のガイドです。</p>
 
-        <details>
-          <summary>アプリで「削除」しても、サービスの課金は止まりますか？</summary>
-          <div class="faq-answer">
-            <strong>止まりません。</strong> アプリ内の「削除」は、DarumaKnock上の記録を消すだけです。各サービスの課金を止めるには、必ず各サービスのサイトまたはApp Storeの「サブスクリプション」ページから解約手続きを行ってください。<br><br>
-            アプリ内では各サービスの解約ページへのリンク、またはGoogle検索リンクをご案内しています。
-          </div>
-        </details>
+      <div class="faq-section">
+        <h2>よくある質問</h2>
+        <div class="faq-list">
 
-        <details>
-          <summary>無料版とProの違いは何ですか？</summary>
-          <div class="faq-answer">
-            無料版はサブスクを<strong>3件まで</strong>登録できます。Proプランにすると登録数が<strong>無制限</strong>になり、更新前のリマインダー通知も利用できます。<br><br>
-            Proプラン: 月額 ¥300 / 年額 ¥3,000
-          </div>
-        </details>
+          <details>
+            <summary>アプリで「削除」すれば、サービスの課金は止まりますか？</summary>
+            <div class="faq-answer">
+              <strong>止まりません。</strong> アプリ内の「削除」は、DarumaKnock上の記録を消すだけです。各サービスの解約には、必ず各サービスのサイトまたはApp Storeの「サブスクリプション」ページから解約手続きを行ってください。<br><br>
+              アプリ内では各サービスの解約ページへのリンク、またはGoogle検索リンクをご案内しています。
+            </div>
+          </details>
 
-        <details>
-          <summary>データはどこに保存されますか？</summary>
-          <div class="faq-answer">
-            すべてのデータはあなたの<strong>iPhone内にのみ保存</strong>されます。クラウドへのアップロードや外部サーバーへの送信は行いません。アカウント登録も不要です。
-          </div>
-        </details>
+          <details>
+            <summary>無料版とProの違いは何ですか？</summary>
+            <div class="faq-answer">
+              無料版はサブスクを<strong>3件まで</strong>登録できます。Proプランにすると登録数が<strong>無制限</strong>になり、更新前のリマインダー通知も利用できます。<br><br>
+              Proプラン: 月額 ¥300 / 年額 ¥3,000
+            </div>
+          </details>
 
-        <details>
-          <summary>解約リンクが見つかりません</summary>
-          <div class="faq-answer">
-            解約ページへの直接リンクがないサービスについては、Google検索リンクをご案内しています。<br><br>
-            また、App Storeから購入したサブスクリプションは、iPhoneの<strong>設定 → Apple ID → サブスクリプション</strong>からまとめて確認・解約できます。
-          </div>
-        </details>
+          <details>
+            <summary>データはどこに保存されますか？</summary>
+            <div class="faq-answer">
+              すべてのデータはあなたの<strong>iPhone内にのみ保存</strong>されます。クラウドへのアップロードや外部サーバーへの送信は行いません。アカウント登録も不要です。
+            </div>
+          </details>
 
-        <details>
-          <summary>通知が届きません</summary>
-          <div class="faq-answer">
-            以下をご確認ください：<br><br>
-            1. iPhoneの<strong>設定 → 通知 → DarumaKnock</strong>で通知が許可されているか<br>
-            2. アプリ内の設定でリマインダーがオンになっているか<br>
-            3. Proプランでないとリマインダーはご利用いただけません
-          </div>
-        </details>
+          <details>
+            <summary>解約リンクが見つかりません</summary>
+            <div class="faq-answer">
+              解約ページへの直接リンクがないサービスについては、Google検索リンクをご案内しています。<br><br>
+              また、App Storeから購入したサブスクリプションは、iPhoneの<strong>設定 → Apple ID → サブスクリプション</strong>からまとめて確認・解約できます。
+            </div>
+          </details>
 
-        <details>
-          <summary>購入の復元はできますか？</summary>
-          <div class="faq-answer">
-            はい。アプリ内の<strong>設定 → 購入を復元</strong>から復元できます。機種変更後や再インストール後にご利用ください。
-          </div>
-        </details>
+          <details>
+            <summary>通知が届きません</summary>
+            <div class="faq-answer">
+              以下をご確認ください：<br><br>
+              1. iPhoneの<strong>設定 → 通知 → DarumaKnock</strong>で通知が許可されているか<br>
+              2. アプリ内の設定でリマインダーがオンになっているか<br>
+              3. Proプランでないとリマインダーはご利用いただけません
+            </div>
+          </details>
 
+          <details>
+            <summary>購入の復元はできますか？</summary>
+            <div class="faq-answer">
+              はい。アプリ内の<strong>設定 → 購入を復元</strong>から復元できます。機種変更後や再インストール後にご利用ください。
+            </div>
+          </details>
+
+        </div>
+      </div>
+
+      <div class="contact-box">
+        <h2>解決しない場合はこちら</h2>
+        <p>お問い合わせフォームからご連絡ください。<br>通常2〜3営業日以内にご返信します。</p>
+        <a href="https://forms.gle/jWpUFdAt5yMJEkno7" class="contact-btn">お問い合わせフォームを開く</a>
+        <!-- TODO: Google Form の URL に差し替える -->
       </div>
     </div>
 
-    <div class="contact-box">
-      <h2>解決しない場合はこちら</h2>
-      <p>お問い合わせフォームからご連絡ください。<br>通常2〜3営業日以内にご返信します。</p>
-      <a href="https://forms.gle/jWpUFdAt5yMJEkno7" class="contact-btn">お問い合わせフォームを開く</a>
+    <!-- ✅ EN -->
+    <div class="lang-en">
+      <h1>Support</h1>
+      <p class="subtitle">FAQs and a quick guide to using DarumaKnock.</p>
+
+      <div class="faq-section">
+        <h2>FAQs</h2>
+        <div class="faq-list">
+
+          <details>
+            <summary>If I “delete” a subscription in the app, does billing stop?</summary>
+            <div class="faq-answer">
+              <strong>No.</strong> Deleting in DarumaKnock only removes the record inside the app. To cancel billing, you must unsubscribe from the service itself or cancel via the App Store Subscriptions page.<br><br>
+              The app provides cancellation links (when available) or Google search links to help you find the right page.
+            </div>
+          </details>
+
+          <details>
+            <summary>What’s the difference between Free and Pro?</summary>
+            <div class="faq-answer">
+              The Free plan lets you register up to <strong>3</strong> subscriptions. Pro unlocks <strong>unlimited</strong> subscriptions and renewal reminder notifications.<br><br>
+              Pro: $2.99/month or $29.99/year(or equivalent value in your currency)
+            </div>
+          </details>
+
+          <details>
+            <summary>Where is my data stored?</summary>
+            <div class="faq-answer">
+              All data is stored <strong>only on your iPhone</strong>. We do not upload or transmit your data to any external server. No account is required.
+            </div>
+          </details>
+
+          <details>
+            <summary>I can’t find the cancellation link.</summary>
+            <div class="faq-answer">
+              For services without a direct cancellation link, we provide a Google search link to help you find it.<br><br>
+              Subscriptions purchased via the App Store can be managed in <strong>Settings → Apple ID → Subscriptions</strong>.
+            </div>
+          </details>
+
+          <details>
+            <summary>I’m not receiving notifications.</summary>
+            <div class="faq-answer">
+              Please check:<br><br>
+              1. Notifications are enabled in <strong>Settings → Notifications → DarumaKnock</strong><br>
+              2. Reminders are turned on in the app settings<br>
+              3. Renewal reminders require the Pro plan
+            </div>
+          </details>
+
+          <details>
+            <summary>Can I restore my purchase?</summary>
+            <div class="faq-answer">
+              Yes. Use <strong>Settings → Restore Purchases</strong> in the app after reinstalling or changing devices.
+            </div>
+          </details>
+
+        </div>
+      </div>
+
+      <div class="contact-box">
+        <h2>Still need help?</h2>
+        <p>Contact us via the form below.<br>We typically reply within 2–3 business days.</p>
+        <a href="https://forms.gle/jWpUFdAt5yMJEkno7" class="contact-btn">Open contact form</a>
+        <!-- TODO: Replace with your Google Form URL if needed -->
+      </div>
     </div>
+
   </div>
 
   <footer>
     <span>© 2026 DarumaKnock</span>
     <div style="display:flex; gap:20px;">
-      <a href="index.html">トップ</a>
-      <a href="privacy.html">プライバシーポリシー</a>
+      <a href="index.html"><span class="lang-ja">トップ</span><span class="lang-en">Home</span></a>
+      <a href="privacy.html"><span class="lang-ja">プライバシーポリシー</span><span class="lang-en">Privacy</span></a>
     </div>
   </footer>
 

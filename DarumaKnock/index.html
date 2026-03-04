@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DarumaKnock — サブスクをだるま落とし</title>
-  <meta name="description" content="不要なサブスクを、だるま落とし。定期課金を一覧管理して、使っていないものをひとつずつ手放すiOSアプリ。">
+  <meta name="description" content="不要なサブスクを、だるま落とし。定期課金を一覧管理して、使っていないものをひとつずつ手放すiOSアプリ。" />
 
-  <!-- ✅ Added: JP/EN toggle (localStorage + ?lang=) -->
+  <!-- ✅ JP/EN toggle (localStorage + ?lang=) -->
   <script>
     (function () {
       const params = new URLSearchParams(location.search);
@@ -42,7 +42,6 @@
       --daruma-red:  #D64B4B;
       --daruma-navy: #111A3A;
 
-      /* 既存テーマのアクセントは赤寄せ（あなたの指定に合わせる） */
       --accent:    var(--daruma-red);
 
       --primary:   #E6EEF9;
@@ -50,19 +49,42 @@
       --success:   #22C55E;
     }
 
-    /* ✅ Added: language visibility */
-    [data-lang="ja"] .lang-en { display: none !important; }
-    [data-lang="en"] .lang-ja { display: none !important; }
-
     body {
       background: var(--bg);
       color: var(--primary);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
+
+    /* ✅ language visibility */
+    [data-lang="ja"] .lang-en { display: none !important; }
+    [data-lang="en"] .lang-ja { display: none !important; }
+
+    /* ---- FIX: Japanese line breaks (override anywhere/keep-all misuse) ---- */
+    :lang(ja) {
+      line-break: strict;
+      word-break: normal;
+      overflow-wrap: break-word;
+      hyphens: none;
+    }
+    :lang(ja) .hero h1,
+    :lang(ja) .hero p,
+    :lang(ja) p,
+    :lang(ja) h1,
+    :lang(ja) h2,
+    :lang(ja) h3,
+    :lang(ja) li,
+    :lang(ja) a {
+      word-break: normal;
+      overflow-wrap: break-word;
+    }
+
+    .nowrap { white-space: nowrap; }
 
     /* ── NAV ── */
     nav {
@@ -74,44 +96,65 @@
       gap: 16px;
       flex-wrap: wrap;
     }
+
     .nav-left{
       display:flex;
       align-items:center;
       gap: 14px;
       flex-wrap: wrap;
+      min-width: 0;
     }
-    .nav-logo { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; }
+
     .nav-home{
       font-size: 0.9rem;
       color: var(--secondary);
+      white-space: nowrap;
     }
     .nav-home:hover{ color: var(--primary); text-decoration:none; }
 
-    .nav-links { display: flex; gap: 24px; font-size: 0.9rem; color: var(--secondary); flex-wrap: wrap; }
+    .nav-logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      font-size: 0.9rem;
+      color: var(--secondary);
+      flex-wrap: wrap;
+      row-gap: 10px;
+      justify-content: center;
+    }
     .nav-links a { color: var(--secondary); }
     .nav-links a:hover { color: var(--primary); text-decoration: none; }
 
-    /* ✅ Added: language toggle UI */
+    /* language buttons */
     .lang-toggle{
       display:flex;
       gap: 8px;
       align-items:center;
+      flex-wrap: wrap;
     }
     .lang-toggle button{
-      appearance: none;
-      border: 1px solid var(--border);
+      appearance:none;
+      border: 1px solid rgba(230,238,249,0.18);
       background: transparent;
       color: var(--secondary);
       border-radius: 999px;
       padding: 8px 12px;
       font-size: 0.85rem;
       cursor: pointer;
-      transition: color .15s, border-color .15s, background .15s;
+      transition: color .15s, border-color .15s, background .15s, transform .08s;
     }
     .lang-toggle button:hover{
       color: var(--primary);
       border-color: rgba(230,238,249,0.35);
+      text-decoration: none;
     }
+    .lang-toggle button:active{ transform: translateY(1px); }
     html[data-lang="ja"] .btn-ja,
     html[data-lang="en"] .btn-en{
       background: rgba(230,238,249,0.08);
@@ -119,56 +162,85 @@
       border-color: rgba(230,238,249,0.25);
     }
 
+    @media (max-width: 520px) {
+      nav { padding: 16px 18px; }
+      .nav-links { gap: 14px; font-size: 0.88rem; }
+    }
+
     /* ── HERO ── */
     .hero {
       text-align: center;
-      padding: 80px 24px 60px;
-      max-width: 680px;
+      padding: 84px 24px 64px;
+      max-width: 900px;
       margin: 0 auto;
     }
+
     .hero-eyebrow {
       font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
+      font-weight: 700;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 20px;
+      color: rgba(159,178,204,0.95);
+      margin-bottom: 18px;
     }
+
+    /* ✅ FIXED: headline wrap */
     .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
       font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.25;
-      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 18px;
+
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+
       word-break: keep-all;
-      overflow-wrap: anywhere;
+      overflow-wrap: normal;
     }
     .hero h1 span { color: var(--accent); }
+
     .hero p {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: var(--secondary);
-      max-width: 480px;
-      margin: 0 auto 36px;
-      word-break: keep-all;
-      overflow-wrap: anywhere;
+      max-width: 560px;
+      margin: 0 auto 34px;
+
+      /* ✅ keep Japanese natural */
+      word-break: normal;
+      overflow-wrap: break-word;
     }
+
     .app-store-btn {
       display: inline-block;
-      background: var(--primary);
+      background: rgba(230,238,249,0.98);
       color: var(--bg);
-      font-weight: 700;
+      font-weight: 800;
       font-size: 0.95rem;
       padding: 14px 28px;
-      border-radius: 12px;
-      transition: opacity .15s;
+      border-radius: 14px;
+      transition: opacity .15s, transform .08s;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.35);
     }
-    .app-store-btn:hover { opacity: .85; text-decoration: none; }
+    .app-store-btn:hover { opacity: .9; text-decoration: none; }
+    .app-store-btn:active { transform: translateY(1px); }
+
+    /* ✅ micro polish: subtle background glow */
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset: 0;
+      pointer-events:none;
+    }
+    /* (safe: no absolute positioning without context) */
+    .hero-wrap{ position: relative; }
 
     /* ── STEPS ── */
     .steps {
-      max-width: 800px;
+      max-width: 980px;
       margin: 0 auto;
-      padding: 60px 24px;
+      padding: 56px 24px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
@@ -176,99 +248,108 @@
     .step {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 28px 24px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.25);
     }
     .step-number {
       font-size: 0.75rem;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: rgba(159,178,204,0.95);
       margin-bottom: 10px;
     }
     .step h3 {
       font-size: 1.05rem;
-      font-weight: 700;
+      font-weight: 800;
       margin-bottom: 8px;
     }
-    .step p { font-size: 0.9rem; color: var(--secondary); }
+    .step p { font-size: 0.92rem; color: var(--secondary); line-height: 1.75; }
 
     /* ── FEATURES ── */
     .features {
-      max-width: 800px;
+      max-width: 980px;
       margin: 0 auto;
-      padding: 20px 24px 60px;
+      padding: 10px 24px 60px;
     }
     .features h2 {
-      font-size: 1.4rem;
-      margin-bottom: 20px;
-      color: var(--secondary);
-      font-weight: 500;
+      font-size: 1.35rem;
+      margin-bottom: 18px;
+      color: rgba(159,178,204,0.95);
+      font-weight: 700;
+      letter-spacing: -0.01em;
     }
     .feature-list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 12px;
       list-style: none;
     }
     .feature-list li {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 16px 18px;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       display: flex;
       align-items: flex-start;
       gap: 10px;
+      line-height: 1.7;
     }
     .feature-list li::before {
       content: "✓";
       color: var(--success);
-      font-weight: 700;
+      font-weight: 900;
       flex-shrink: 0;
+      margin-top: 1px;
     }
 
     /* ── PRICING ── */
     .pricing {
-      max-width: 600px;
+      max-width: 720px;
       margin: 0 auto;
-      padding: 20px 24px 80px;
+      padding: 10px 24px 86px;
       text-align: center;
     }
     .pricing h2 {
-      font-size: 1.6rem;
-      font-weight: 700;
+      font-size: 1.55rem;
+      font-weight: 800;
       margin-bottom: 8px;
+      letter-spacing: -0.02em;
     }
-    .pricing .sub { color: var(--secondary); margin-bottom: 32px; }
+    .pricing .sub { color: var(--secondary); margin-bottom: 28px; }
     .plans {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
     }
+    @media (max-width: 560px){
+      .plans { grid-template-columns: 1fr; }
+    }
     .plan {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 24px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.25);
     }
-    .plan.featured { border-color: var(--accent); }
+    .plan.featured { border-color: rgba(214,75,75,0.9); }
     .plan-label {
       font-size: 0.75rem;
-      font-weight: 600;
+      font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: rgba(214,75,75,0.95);
       margin-bottom: 8px;
     }
     .plan-price {
       font-size: 1.8rem;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: -0.03em;
       margin-bottom: 4px;
     }
-    .plan-period { font-size: 0.85rem; color: var(--secondary); }
+    .plan-period { font-size: 0.88rem; color: var(--secondary); }
 
     /* ── FOOTER ── */
     footer {
@@ -290,45 +371,40 @@
 
   <nav>
     <div class="nav-left">
-      <!-- ✅ Added: Back to Quiet Tools -->
       <a class="nav-home" href="/" aria-label="Back to Quiet Tools">← Quiet Tools</a>
       <span class="nav-logo">DarumaKnock</span>
     </div>
 
     <div class="nav-links">
-      <!-- ✅ Updated: bilingual labels -->
       <a href="support.html"><span class="lang-ja">サポート</span><span class="lang-en">Support</span></a>
       <a href="privacy.html"><span class="lang-ja">プライバシーポリシー</span><span class="lang-en">Privacy</span></a>
       <a href="terms.html"><span class="lang-ja">利用規約</span><span class="lang-en">Terms</span></a>
     </div>
 
-    <!-- ✅ Added: language buttons -->
     <div class="lang-toggle" aria-label="Language">
       <button type="button" class="btn-ja" onclick="QT_setLang('ja')">JP</button>
       <button type="button" class="btn-en" onclick="QT_setLang('en')">EN</button>
     </div>
   </nav>
 
-  <section class="hero">
-    <p class="hero-eyebrow">iOS App</p>
+  <div class="hero-wrap">
+    <section class="hero">
+      <p class="hero-eyebrow">iOS App</p>
 
-    <!-- ✅ Added: bilingual hero -->
-    <h1 class="lang-ja">不要なサブスクを、<span>だるま落とし。</span></h1>
-    <h1 class="lang-en">Knock out the <span>Extras.</span></h1>
+      <h1 class="lang-ja">不要なサブスク、<span class="nowrap">だるま落とし。</span></h1>
+      <h1 class="lang-en">Knock out <span class="nowrap">Extras.</span></h1>
 
-    <p class="lang-ja">
-      サブスクを一元管理し、使っていないものをひとつずつ削る。残すのは、本当に使っているものだけ。
-    </p>
-    <p class="lang-en">
-      Track recurring charges in one place and drop what you don’t use—one by one.Keep only what you truly need.
-    </p>
+      <!-- ✅ removed <br> to avoid forced awkward breaks -->
+      <p class="lang-ja">サブスクを一覧管理して、使っていないものをひとつずつ削る。残すのは、本当に使っているものだけ。</p>
+      <p class="lang-en">Track subscriptions in one place and drop what you don’t use—one by one. Keep only what you truly need.</p>
 
-    <a href="https://apps.apple.com/jp/app/darumaknock/id0000000000" class="app-store-btn">
-      <span class="lang-ja">App Store でダウンロード</span>
-      <span class="lang-en">Download on the App Store</span>
-    </a>
-    <!-- TODO: App Store URL を正しいものに差し替える -->
-  </section>
+      <a href="https://apps.apple.com/jp/app/darumaknock/id0000000000" class="app-store-btn">
+        <span class="lang-ja">App Store でダウンロード</span>
+        <span class="lang-en">Download on the App Store</span>
+      </a>
+      <!-- TODO: App Store URL を正しいものに差し替える -->
+    </section>
+  </div>
 
   <section class="steps">
     <div class="step">
@@ -384,7 +460,7 @@
       <div class="plan featured">
         <p class="plan-label">Pro</p>
         <p class="plan-price">¥300</p>
-        <p class="plan-period"><span class="lang-ja">/ 月（年額 ¥3,000）</span><span class="lang-en">/ month (¥3,000 / year)</span></p>
+        <p class="plan-period"><span class="lang-ja"> ￥300/月（年額 ¥3,000）</span><span class="lang-en">$2.99 / month ($29.99 / year)</span></p>
       </div>
     </div>
   </section>
@@ -392,6 +468,7 @@
   <footer>
     <span>© 2026 DarumaKnock</span>
     <div style="display:flex; gap:20px; flex-wrap:wrap;">
+      <a href="index.html"><span class="lang-ja">トップ</span><span class="lang-en">Home</span></a>
       <a href="support.html"><span class="lang-ja">サポート</span><span class="lang-en">Support</span></a>
       <a href="privacy.html"><span class="lang-ja">プライバシーポリシー</span><span class="lang-en">Privacy</span></a>
       <a href="terms.html"><span class="lang-ja">利用規約</span><span class="lang-en">Terms</span></a>

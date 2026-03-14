@@ -238,6 +238,52 @@
     }
     footer a { color: var(--secondary); }
     footer a:hover { color: var(--primary); text-decoration: none; }
+
+    /* ── PRICING ── */
+    .pricing {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 10px 24px 86px;
+      text-align: center;
+    }
+    .pricing h2 {
+      font-size: 1.55rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .pricing .sub { color: var(--secondary); margin-bottom: 28px; }
+    .plans {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 560px){
+      .plans { grid-template-columns: 1fr; }
+    }
+    .plan {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+    }
+    .plan.featured { border-color: rgba(34,197,94,0.9); }
+    .plan-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(34,197,94,0.95);
+      margin-bottom: 8px;
+    }
+    .plan-price {
+      font-size: 1.8rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+    .plan-period { font-size: 0.88rem; color: var(--secondary); }
   </style>
 </head>
 <body>
@@ -313,6 +359,28 @@
       <li><span class="lang-ja">アカウント不要、データはデバイスに保存</span><span class="lang-en">No account required; data stays on-device</span></li>
       <li><span class="lang-ja">オフライン対応（機内でも使える）</span><span class="lang-en">Works offline — even in-flight</span></li>
     </ul>
+  </section>
+
+
+  <section class="pricing">
+    <h2 class="lang-ja">シンプルな料金</h2>
+    <h2 class="lang-en">Simple pricing</h2>
+
+    <p class="sub lang-ja">1回の旅行は無料。継続して使うなら買い切りで。</p>
+    <p class="sub lang-en">First trip free. Unlock everything with a one-time purchase.</p>
+
+    <div class="plans">
+      <div class="plan">
+        <p class="plan-label"><span class="lang-ja">無料</span><span class="lang-en">Free</span></p>
+        <p class="plan-price"><span class="lang-ja">¥0</span><span class="lang-en">$0</span></p>
+        <p class="plan-period"><span class="lang-ja">旅行1件まで</span><span class="lang-en">Up to 1 trip</span></p>
+      </div>
+      <div class="plan featured">
+        <p class="plan-label"><span class="lang-ja">買い切り</span><span class="lang-en">Full Access</span></p>
+        <p class="plan-price"><span class="lang-ja">¥500</span><span class="lang-en">$4.99</span></p>
+        <p class="plan-period"><span class="lang-ja">一度きりの購入・旅行数無制限</span><span class="lang-en">One-time purchase · Unlimited trips</span></p>
+      </div>
+    </div>
   </section>
 
   <footer>

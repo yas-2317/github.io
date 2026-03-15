@@ -76,6 +76,19 @@
     .faq-q { font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; color: var(--primary); }
     .faq-a { font-size: 0.92rem; color: var(--secondary); line-height: 1.75; }
 
+    .contact-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px; text-align: center; margin-top: 48px;
+    }
+    .contact-box h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+    .contact-box p { color: var(--secondary); font-size: 0.9rem; margin-bottom: 24px; }
+    .contact-btn {
+      display: inline-block; background: var(--accent); color: #fff;
+      font-weight: 700; font-size: 0.95rem; padding: 13px 28px;
+      border-radius: 10px; text-decoration: none; transition: opacity .15s;
+    }
+    .contact-btn:hover { opacity: .85; }
+
     footer {
       border-top: 1px solid var(--border); padding: 28px 40px;
       display: flex; justify-content: space-between; font-size: 0.85rem;
@@ -132,9 +145,11 @@
         </div>
       </div>
 
-      <h2>お問い合わせ</h2>
-      <p>上記で解決しない場合は、下記メールアドレスまでご連絡ください。</p>
-      <p><a href="mailto:support@quiet-tools.app">support@quiet-tools.app</a></p>
+      <div class="contact-box">
+        <h2>解決しない場合はこちら</h2>
+        <p>お問い合わせフォームからご連絡ください。<br>通常2〜3営業日以内にご返信します。</p>
+        <a href="https://forms.gle/hz2DNTTKhSkLhGjPA" class="contact-btn">お問い合わせフォームを開く</a>
+      </div>
     </div>
 
     <div class="lang-en">
@@ -165,9 +180,11 @@
         </div>
       </div>
 
-      <h2>Contact</h2>
-      <p>If your question isn't answered above, please reach out via email.</p>
-      <p><a href="mailto:support@quiet-tools.app">support@quiet-tools.app</a></p>
+      <div class="contact-box">
+        <h2>Still need help?</h2>
+        <p>Contact us via the form below.<br>We typically reply within 2–3 business days.</p>
+        <a href="https://forms.gle/hz2DNTTKhSkLhGjPA" class="contact-btn">Open contact form</a>
+      </div>
     </div>
 
   </div>

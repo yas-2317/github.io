@@ -216,9 +216,24 @@
       font-size: 0.85rem;
     }
 
+    /* ── CARD GROUPS ── */
+    .card-groups{
+      margin-top: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .group-label{
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(159,178,204,0.45);
+      margin-bottom: 12px;
+    }
+
     /* ── CARDS ── */
     .cards{
-      margin-top: 36px;
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap: 18px;
@@ -402,99 +417,110 @@
       <p class="note lang-en">Currently featured: DarumaKnock / TimeBud / TravelGuard / Dessin</p>
     </section>
 
-    <section class="cards">
-      <div class="card daruma">
-        <div class="badge">
-          <span class="badge-dot daruma" aria-hidden="true"></span>
-          <span>DarumaKnock</span>
-        </div>
+    <section class="card-groups">
+      <div class="card-group">
+        <p class="group-label"><span class="lang-ja">日常</span><span class="lang-en">DAILY</span></p>
+        <div class="cards">
+          <div class="card daruma">
+            <div class="badge">
+              <span class="badge-dot daruma" aria-hidden="true"></span>
+              <span>DarumaKnock</span>
+            </div>
 
-        <h3 class="lang-ja">不要なサブスク、だるま落とし。</h3>
-        <h3 class="lang-en">Knock out Extras. Keep Life Simple.</h3>
+            <h3 class="lang-ja">不要なサブスク、だるま落とし。</h3>
+            <h3 class="lang-en">Knock out Extras. Keep Life Simple.</h3>
 
-        <p class="lang-ja">
-          余分なサブスクだけをサクッと整理。支出と更新日を見える化して、無駄を一つずつ落とす。
-        </p>
-        <p class="lang-en">
-          Quickly clean up extra subscriptions. See spending and renewal dates, and drop unused ones one by one.
-        </p>
+            <p class="lang-ja">
+              余分なサブスクだけをサクッと整理。支出と更新日を見える化して、無駄を一つずつ落とす。
+            </p>
+            <p class="lang-en">
+              Quickly clean up extra subscriptions. See spending and renewal dates, and drop unused ones one by one.
+            </p>
 
-        <div class="btns">
-          <a class="btn" href="/DarumaKnock/"><span class="lang-ja">Open</span><span class="lang-en">Open</span></a>
-          <a class="btn" href="/DarumaKnock/support.html"><span class="lang-ja">Support</span><span class="lang-en">Support</span></a>
-          <a class="btn" href="/DarumaKnock/privacy.html"><span class="lang-ja">Privacy</span><span class="lang-en">Privacy</span></a>
-          <a class="btn" href="/DarumaKnock/terms.html"><span class="lang-ja">Terms</span><span class="lang-en">Terms</span></a>
-        </div>
-      </div>
+            <div class="btns">
+              <a class="btn" href="/DarumaKnock/"><span class="lang-ja">Open</span><span class="lang-en">Open</span></a>
+              <a class="btn" href="/DarumaKnock/support.html"><span class="lang-ja">Support</span><span class="lang-en">Support</span></a>
+              <a class="btn" href="/DarumaKnock/privacy.html"><span class="lang-ja">Privacy</span><span class="lang-en">Privacy</span></a>
+              <a class="btn" href="/DarumaKnock/terms.html"><span class="lang-ja">Terms</span><span class="lang-en">Terms</span></a>
+            </div>
+          </div>
 
-      <div class="card timebud">
-        <div class="badge">
-          <span class="badge-dot timebud" aria-hidden="true"></span>
-          <span>TimeBud</span>
-        </div>
+          <div class="card timebud">
+            <div class="badge">
+              <span class="badge-dot timebud" aria-hidden="true"></span>
+              <span>TimeBud</span>
+            </div>
 
-        <h3 class="lang-ja">Type slots. Copy. Done.</h3>
-        <h3 class="lang-en">Type slots. Copy. Done.</h3>
+            <h3 class="lang-ja">Type slots. Copy. Done.</h3>
+            <h3 class="lang-en">Type slots. Copy. Done.</h3>
 
-        <p class="lang-ja">
-          候補時間を入力するだけで、貼れるメッセージブロックを生成。時差調整を最短に。
-        </p>
-        <p class="lang-en">
-          Type candidate times and get a ready-to-send message block. Time zones, handled fast.
-        </p>
+            <p class="lang-ja">
+              候補時間を入力するだけで、貼れるメッセージブロックを生成。時差調整を最短に。
+            </p>
+            <p class="lang-en">
+              Type candidate times and get a ready-to-send message block. Time zones, handled fast.
+            </p>
 
-        <div class="btns">
-          <a class="btn" href="/TimeBud/"><span class="lang-ja">Open</span><span class="lang-en">Open</span></a>
-          <a class="btn" href="/TimeBud/support.html"><span class="lang-ja">Support</span><span class="lang-en">Support</span></a>
-          <a class="btn" href="/TimeBud/privacy.html"><span class="lang-ja">Privacy</span><span class="lang-en">Privacy</span></a>
-          <a class="btn" href="/TimeBud/terms.html"><span class="lang-ja">Terms</span><span class="lang-en">Terms</span></a>
-        </div>
-      </div>
-
-      <div class="card travelguard">
-        <div class="badge">
-          <span class="badge-dot travelguard" aria-hidden="true"></span>
-          <span>TravelGuard</span>
-        </div>
-
-        <h3 class="lang-ja">旅先のリスクを、出発前に片付けよう。</h3>
-        <h3 class="lang-en">Pre-trip checks. Done fast.</h3>
-
-        <p class="lang-ja">
-          保険・ビザ・緊急連絡先まで、出発前の確認事項を一括管理。抜け漏れなく旅立てる。
-        </p>
-        <p class="lang-en">
-          Manage insurance, visas, and emergency contacts before you fly. Leave nothing unchecked.
-        </p>
-
-        <div class="btns">
-          <a class="btn" href="/TravelGuard/"><span class="lang-ja">Open</span><span class="lang-en">Open</span></a>
-          <a class="btn" href="/TravelGuard/support.html"><span class="lang-ja">Support</span><span class="lang-en">Support</span></a>
-          <a class="btn" href="/TravelGuard/privacy.html"><span class="lang-ja">Privacy</span><span class="lang-en">Privacy</span></a>
-          <a class="btn" href="/TravelGuard/terms.html"><span class="lang-ja">Terms</span><span class="lang-en">Terms</span></a>
+            <div class="btns">
+              <a class="btn" href="/TimeBud/"><span class="lang-ja">Open</span><span class="lang-en">Open</span></a>
+              <a class="btn" href="/TimeBud/support.html"><span class="lang-ja">Support</span><span class="lang-en">Support</span></a>
+              <a class="btn" href="/TimeBud/privacy.html"><span class="lang-ja">Privacy</span><span class="lang-en">Privacy</span></a>
+              <a class="btn" href="/TimeBud/terms.html"><span class="lang-ja">Terms</span><span class="lang-en">Terms</span></a>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="card dessin">
-        <div class="badge">
-          <span class="badge-dot dessin" aria-hidden="true"></span>
-          <span>Dessin</span>
-        </div>
 
-        <h3 class="lang-ja">「好き」の輪郭を描きだす</h3>
-        <h3 class="lang-en">Trace the outline of what you love.</h3>
+      <div class="card-group">
+        <p class="group-label"><span class="lang-ja">記録</span><span class="lang-en">MEMORY</span></p>
+        <div class="cards">
+          <div class="card travelguard">
+            <div class="badge">
+              <span class="badge-dot travelguard" aria-hidden="true"></span>
+              <span>TravelGuard</span>
+            </div>
 
-        <p class="lang-ja">
-          欲しいものではなく「好き」の感情を記録。時間が経っても残るものだけが、本当の好き。
-        </p>
-        <p class="lang-en">
-          Record feelings, not items. What you really love won't leave.
-        </p>
+            <h3 class="lang-ja">旅先のリスクを、出発前に片付けよう。</h3>
+            <h3 class="lang-en">Pre-trip checks. Done fast.</h3>
 
-        <div class="btns">
-          <a class="btn" href="/Dessin/"><span class="lang-ja">Open</span><span class="lang-en">Open</span></a>
-          <a class="btn" href="/Dessin/support.html"><span class="lang-ja">Support</span><span class="lang-en">Support</span></a>
-          <a class="btn" href="/Dessin/privacy.html"><span class="lang-ja">Privacy</span><span class="lang-en">Privacy</span></a>
-          <a class="btn" href="/Dessin/terms.html"><span class="lang-ja">Terms</span><span class="lang-en">Terms</span></a>
+            <p class="lang-ja">
+              保険・ビザ・緊急連絡先まで、出発前の確認事項を一括管理。抜け漏れなく旅立てる。
+            </p>
+            <p class="lang-en">
+              Manage insurance, visas, and emergency contacts before you fly. Leave nothing unchecked.
+            </p>
+
+            <div class="btns">
+              <a class="btn" href="/TravelGuard/"><span class="lang-ja">Open</span><span class="lang-en">Open</span></a>
+              <a class="btn" href="/TravelGuard/support.html"><span class="lang-ja">Support</span><span class="lang-en">Support</span></a>
+              <a class="btn" href="/TravelGuard/privacy.html"><span class="lang-ja">Privacy</span><span class="lang-en">Privacy</span></a>
+              <a class="btn" href="/TravelGuard/terms.html"><span class="lang-ja">Terms</span><span class="lang-en">Terms</span></a>
+            </div>
+          </div>
+
+          <div class="card dessin">
+            <div class="badge">
+              <span class="badge-dot dessin" aria-hidden="true"></span>
+              <span>Dessin</span>
+            </div>
+
+            <h3 class="lang-ja">「好き」の輪郭を描きだす</h3>
+            <h3 class="lang-en">Trace the outline of what you love.</h3>
+
+            <p class="lang-ja">
+              欲しいものではなく「好き」の感情を記録。時間が経っても残るものだけが、本当の好き。
+            </p>
+            <p class="lang-en">
+              Record feelings, not items. What you really love won't leave.
+            </p>
+
+            <div class="btns">
+              <a class="btn" href="/Dessin/"><span class="lang-ja">Open</span><span class="lang-en">Open</span></a>
+              <a class="btn" href="/Dessin/support.html"><span class="lang-ja">Support</span><span class="lang-en">Support</span></a>
+              <a class="btn" href="/Dessin/privacy.html"><span class="lang-ja">Privacy</span><span class="lang-en">Privacy</span></a>
+              <a class="btn" href="/Dessin/terms.html"><span class="lang-ja">Terms</span><span class="lang-en">Terms</span></a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
